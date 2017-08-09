@@ -41,6 +41,12 @@ If you want to use the Ace widget in an ActiveForm, it can be done like this:
 <?= $form->field($model, 'attributeName')->widget(alexantr\ace\Ace::className()) ?>
 ```
 
+## Default configuration
+
+This widget has default options to prevent its hiding: `minLines = 5` and `maxLines = 100`.
+
+If you want to disable default options you can set property `useDefaultClientOptions` to `false`.
+
 ## Using global configuration
 
 To avoid repeating identical configuration in every widget you can set global configuration in

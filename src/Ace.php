@@ -43,17 +43,17 @@ class Ace extends InputWidget
         'style' => 'width:100%'
     ];
     /**
-     * @var array Default Ace options for this widget
-     * @see https://github.com/ajaxorg/ace/wiki/Configuring-Ace
-     */
-    public $defaultClientOptions = [
-        'minLines' => 5,
-        'maxLines' => 100,
-    ];
-    /**
      * @var bool Enable or disable default options
      */
     public $useDefaultClientOptions = true;
+
+    /**
+     * @var array Default Ace options for this widget
+     */
+    protected $defaultClientOptions = [
+        'minLines' => 5,
+        'maxLines' => 100,
+    ];
 
     /**
      * @inheritdoc
