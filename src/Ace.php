@@ -59,20 +59,29 @@ class Ace extends InputWidget
      */
     public function run()
     {
+        $this->registerClientScript();
+        return $this->renderContent();
+    }
+
+    /**
+     * Renders tags
+     * @return string
+     */
+    protected function renderContent()
+    {
         // create div for editor
         $this->containerOptions['id'] = $this->options['id'] . '-ace';
-        echo Html::tag('div', '', $this->containerOptions) . "\n";
+        $content = Html::tag('div', '', $this->containerOptions) . "\n";
 
         // create hidden textarea
         $this->options['style'] = 'display:none';
         if ($this->hasModel()) {
-            echo Html::activeTextarea($this->model, $this->attribute, $this->options) . "\n";
+            $content .= Html::activeTextarea($this->model, $this->attribute, $this->options) . "\n";
         } else {
-            echo Html::textarea($this->name, $this->value, $this->options) . "\n";
+            $content .= Html::textarea($this->name, $this->value, $this->options) . "\n";
         }
 
-        // register Ace plugin
-        $this->registerClientScript();
+        return $content;
     }
 
     /**
@@ -87,7 +96,11 @@ class Ace extends InputWidget
         $textarea_id = $this->options['id'];
         $editor_id = $textarea_id . '-ace';
 
-        $options = !empty($this->clientOptions) ? Json::encode($this->clientOptions) : '{}';
+        if (!isset($this->clientOptions['minLines'])) {
+            $this->clientOptions['minLines'] = 1;
+        }
+
+        $options = Json::encode($this->clientOptions);
         $var = uniqid('ace');
 
         $js = [];
