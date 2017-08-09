@@ -27,10 +27,7 @@ class Ace extends InputWidget
      * @var array Ace options
      * @see https://github.com/ajaxorg/ace/wiki/Configuring-Ace
      */
-    public $clientOptions = [
-        'minLines' => 5,
-        'maxLines' => 100,
-    ];
+    public $clientOptions = [];
     /**
      * @var array Ace events
      */
@@ -45,6 +42,18 @@ class Ace extends InputWidget
     public $containerOptions = [
         'style' => 'width:100%'
     ];
+    /**
+     * @var array Default Ace options for this widget
+     * @see https://github.com/ajaxorg/ace/wiki/Configuring-Ace
+     */
+    public $defaultClientOptions = [
+        'minLines' => 5,
+        'maxLines' => 100,
+    ];
+    /**
+     * @var bool Enable or disable default options
+     */
+    public $useDefaultClientOptions = true;
 
     /**
      * @inheritdoc
@@ -54,6 +63,9 @@ class Ace extends InputWidget
         parent::init();
         if ($this->presetName !== null) {
             $this->clientOptions = ArrayHelper::merge($this->getPresetConfig($this->presetName), $this->clientOptions);
+        }
+        if ($this->useDefaultClientOptions) {
+            $this->clientOptions = ArrayHelper::merge($this->defaultClientOptions, $this->clientOptions);
         }
     }
 
