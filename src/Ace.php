@@ -27,7 +27,10 @@ class Ace extends InputWidget
      * @var array Ace options
      * @see https://github.com/ajaxorg/ace/wiki/Configuring-Ace
      */
-    public $clientOptions = [];
+    public $clientOptions = [
+        'minLines' => 5,
+        'maxLines' => 100,
+    ];
     /**
      * @var array Ace events
      */
