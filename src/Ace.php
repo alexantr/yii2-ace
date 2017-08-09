@@ -96,10 +96,6 @@ class Ace extends InputWidget
         $textarea_id = $this->options['id'];
         $editor_id = $textarea_id . '-ace';
 
-        if (!isset($this->clientOptions['minLines'])) {
-            $this->clientOptions['minLines'] = 1;
-        }
-
         $options = Json::encode($this->clientOptions);
         $var = uniqid('ace');
 
