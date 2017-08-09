@@ -2,9 +2,9 @@
 
 This extension renders a [Ace Code Editor](https://ace.c9.io/) widget for [Yii framework 2.0](http://www.yiiframework.com).
 
-[![Latest Stable Version](https://poser.pugx.org/alexantr/yii2-ace/v/stable)](https://packagist.org/packages/alexantr/yii2-ace)
-[![Total Downloads](https://poser.pugx.org/alexantr/yii2-ace/downloads)](https://packagist.org/packages/alexantr/yii2-ace)
-[![License](https://poser.pugx.org/alexantr/yii2-ace/license)](https://packagist.org/packages/alexantr/yii2-ace)
+[![Latest Stable Version](https://img.shields.io/packagist/v/alexantr/yii2-ace.svg)](https://packagist.org/packages/alexantr/yii2-ace)
+[![Total Downloads](https://img.shields.io/packagist/dt/alexantr/yii2-ace.svg)](https://packagist.org/packages/alexantr/yii2-ace)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/alexantr/yii2-ace/master/LICENSE)
 
 ## Installation
 
