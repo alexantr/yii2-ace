@@ -9,6 +9,6 @@ class AceAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $js = [
-        'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.0/ace.js',
     ];
 }
