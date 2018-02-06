@@ -4,6 +4,10 @@ namespace alexantr\ace;
 
 use yii\web\AssetBundle;
 
+/**
+ * Class AceAsset
+ * @package alexantr\ace
+ */
 class AceAsset extends AssetBundle
 {
     public $basePath = '@webroot';

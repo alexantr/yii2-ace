@@ -5,6 +5,7 @@ This extension renders a [Ace Code Editor](https://ace.c9.io/) widget for [Yii f
 [![Latest Stable Version](https://img.shields.io/packagist/v/alexantr/yii2-ace.svg)](https://packagist.org/packages/alexantr/yii2-ace)
 [![Total Downloads](https://img.shields.io/packagist/dt/alexantr/yii2-ace.svg)](https://packagist.org/packages/alexantr/yii2-ace)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/alexantr/yii2-ace/master/LICENSE)
+[![Build Status](https://travis-ci.org/alexantr/yii2-ace.svg?branch=master)](https://travis-ci.org/alexantr/yii2-ace)
 
 ## Installation
 

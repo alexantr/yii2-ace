@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\View;
 use yii\widgets\InputWidget;
 
 /**
@@ -70,9 +71,9 @@ class Ace extends InputWidget
         // create hidden textarea
         $this->options['style'] = 'display:none';
         if ($this->hasModel()) {
-            $content .= Html::activeTextarea($this->model, $this->attribute, $this->options) . "\n";
+            $content .= Html::activeTextarea($this->model, $this->attribute, $this->options);
         } else {
-            $content .= Html::textarea($this->name, $this->value, $this->options) . "\n";
+            $content .= Html::textarea($this->name, $this->value, $this->options);
         }
 
         return $content;
@@ -84,26 +85,16 @@ class Ace extends InputWidget
     protected function registerClientScript()
     {
         $view = $this->getView();
-        AceAsset::register($view);
+        AceWidgetAsset::register($view);
 
-        $textarea_id = $this->options['id'];
-        $editor_id = $this->containerOptions['id'];
+        $textareaId = $this->options['id'];
+        $editorId = $this->containerOptions['id'];
 
         $clientOptions = ArrayHelper::merge($this->getPresetConfig(), $this->clientOptions);
         $encodedOptions = !empty($clientOptions) ? Json::encode($clientOptions) : '{}';
 
-        $var = uniqid('ace');
-
-        $js = [];
-        $js[] = "var $var = ace.edit('$editor_id');";
-        $js[] = "$var.setTheme('ace/theme/{$this->theme}');";
-        $js[] = "$var.getSession().setMode('ace/mode/{$this->mode}');";
-        $js[] = "$var.getSession().setUseWrapMode(true);";
-        $js[] = "$var.setValue(jQuery('#$textarea_id').val(), -1);";
-        $js[] = "$var.getSession().on('change', function() { jQuery('#$textarea_id').val($var.getSession().getValue()); });";
-        $js[] = "$var.setOptions($encodedOptions);";
-
-        $view->registerJs(implode("\n", $js));
+        $js = "alexantr.aceWidget.register('$editorId', '$textareaId', '{$this->mode}', '{$this->theme}', $encodedOptions);";
+        $view->registerJs($js, View::POS_END);
     }
 
     /**
