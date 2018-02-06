@@ -39,10 +39,14 @@ using the `clientOptions` attribute:
     'name' => 'attributeName',
     'clientOptions' => [
         'fontSize' => 14,
+        'minLines' => 10,
+        'maxLines' => 100,
         'useSoftTabs' => true,
     ],
 ]) ?>
 ```
+
+> **Note:** Please set `minLines` and `maxLines` options or set CSS `min-height` for Ace container to make editor visible.
 
 Setting [themes](https://github.com/ajaxorg/ace/tree/master/lib/ace/theme) and programming language mode:
 
