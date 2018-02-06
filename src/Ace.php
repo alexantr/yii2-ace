@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\web\JsExpression;
 use yii\widgets\InputWidget;
 
 /**
@@ -29,30 +28,14 @@ class Ace extends InputWidget
      */
     public $clientOptions = [];
     /**
-     * @var array Ace events
+     * @var string Path to preset with Ace options
      */
-    public $clientEvents = [];
-    /**
-     * @var string param name in `Yii::$app->params` with Ace predefined config
-     */
-    public $presetName;
+    public $presetPath = '@app/config/ace.php';
     /**
      * @var array Container options
      */
     public $containerOptions = [
         'style' => 'width:100%'
-    ];
-    /**
-     * @var bool Enable or disable default options
-     */
-    public $useDefaultClientOptions = true;
-
-    /**
-     * @var array Default Ace options for this widget
-     */
-    protected $defaultClientOptions = [
-        'minLines' => 5,
-        'maxLines' => 100,
     ];
 
     /**
@@ -61,11 +44,8 @@ class Ace extends InputWidget
     public function init()
     {
         parent::init();
-        if ($this->presetName !== null) {
-            $this->clientOptions = ArrayHelper::merge($this->getPresetConfig($this->presetName), $this->clientOptions);
-        }
-        if ($this->useDefaultClientOptions) {
-            $this->clientOptions = ArrayHelper::merge($this->defaultClientOptions, $this->clientOptions);
+        if (!isset($this->containerOptions['id'])) {
+            $this->containerOptions['id'] = $this->options['id'] . '-ace';
         }
     }
 
@@ -84,8 +64,7 @@ class Ace extends InputWidget
      */
     protected function renderContent()
     {
-        // create div for editor
-        $this->containerOptions['id'] = $this->options['id'] . '-ace';
+        // create container for editor
         $content = Html::tag('div', '', $this->containerOptions) . "\n";
 
         // create hidden textarea
@@ -105,13 +84,14 @@ class Ace extends InputWidget
     protected function registerClientScript()
     {
         $view = $this->getView();
-
         AceAsset::register($view);
 
         $textarea_id = $this->options['id'];
-        $editor_id = $textarea_id . '-ace';
+        $editor_id = $this->containerOptions['id'];
 
-        $options = !empty($this->clientOptions) ? Json::encode($this->clientOptions) : '{}';
+        $clientOptions = ArrayHelper::merge($this->getPresetConfig(), $this->clientOptions);
+        $encodedOptions = !empty($clientOptions) ? Json::encode($clientOptions) : '{}';
+
         $var = uniqid('ace');
 
         $js = [];
@@ -121,30 +101,24 @@ class Ace extends InputWidget
         $js[] = "$var.getSession().setUseWrapMode(true);";
         $js[] = "$var.setValue(jQuery('#$textarea_id').val(), -1);";
         $js[] = "$var.getSession().on('change', function() { jQuery('#$textarea_id').val($var.getSession().getValue()); });";
-
-        if (!empty($this->clientEvents)) {
-            foreach ($this->clientEvents as $name => $handler) {
-                $handler = ($handler instanceof JsExpression) ? $handler : new JsExpression($handler);
-                $js[] = "$var.getSession().on('$name', $handler);";
-            }
-        }
-
-        $js[] = "$var.setOptions($options);";
+        $js[] = "$var.setOptions($encodedOptions);";
 
         $view->registerJs(implode("\n", $js));
     }
 
     /**
      * Get options config from preset
-     * @param string $presetName
      * @return array
      */
-    protected function getPresetConfig($presetName)
+    protected function getPresetConfig()
     {
-        $config = isset(Yii::$app->params[$presetName]) ? Yii::$app->params[$presetName] : [];
-        if ((is_string($config) && is_callable($config)) || $config instanceof \Closure) {
-            $config = call_user_func($config);
+        if (!empty($this->presetPath)) {
+            $presetPath = Yii::getAlias($this->presetPath);
+            if (is_file($presetPath)) {
+                $config = include $presetPath;
+                return is_array($config) ? $config : [];
+            }
         }
-        return is_array($config) ? $config : [];
+        return [];
     }
 }

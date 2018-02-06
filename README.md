@@ -11,15 +11,23 @@ This extension renders a [Ace Code Editor](https://ace.c9.io/) widget for [Yii f
 Install extension through [composer](http://getcomposer.org/):
 
 ```
-composer require "alexantr/yii2-ace"
+composer require alexantr/yii2-ace
 ```
+
+> **Note:** The extension loads editor code from [CDN](https://cdnjs.com/libraries/ace/).
 
 ## Usage
 
-The following code in a view file would render a Ace widget:
+The following code in a view file would render an Ace widget:
 
 ```php
 <?= alexantr\ace\Ace::widget(['name' => 'attributeName']) ?>
+```
+
+If you want to use the Ace widget in an ActiveForm, it can be done like this:
+
+```php
+<?= $form->field($model, 'attributeName')->widget(alexantr\ace\Ace::className()) ?>
 ```
 
 Configuring the [Ace options](https://github.com/ajaxorg/ace/wiki/Configuring-Ace) should be done
@@ -35,61 +43,40 @@ using the `clientOptions` attribute:
 ]) ?>
 ```
 
-If you want to use the Ace widget in an ActiveForm, it can be done like this:
-
-```php
-<?= $form->field($model, 'attributeName')->widget(alexantr\ace\Ace::className()) ?>
-```
-
-## Default configuration
-
-This widget has default options to prevent its hiding: `minLines = 5` and `maxLines = 100`.
-
-If you want to disable default options you can set property `useDefaultClientOptions` to `false`.
-
-## Using global configuration
-
-To avoid repeating identical configuration in every widget you can set global configuration in
-`Yii::$app->params`. Options from widget's `clientOptions` will be merged with this configuration. Use `presetName`
-attribute for this functionality:
+Setting [themes](https://github.com/ajaxorg/ace/tree/master/lib/ace/theme) and programming language mode:
 
 ```php
 <?= alexantr\ace\Ace::widget([
     'name' => 'attributeName',
-    'presetName' => 'ace.customConfig', // will use Yii::$app->params['ace.customConfig']
+    'mode' => 'javascript',
+    'theme' => 'twilight',
 ]) ?>
 ```
 
-## Global configuration examples
+Default mode is "html" and theme is "chrome".
 
-Usual array:
+## Using global configuration (presets)
+
+To avoid repeating identical configuration in every widget you can set global configuration in
+`@app/config/ace.php`. Options from widget's `clientOptions` will be merged with this configuration.
+
+You can change default path with `presetPath` attribute:
 
 ```php
-'params' => [
-    'ace.customConfig' => [
-        'fontSize' => 14,
-        'useSoftTabs' => true,
-    ],
-]
+<?= alexantr\ace\Ace::widget([
+    'name' => 'attributeName',
+    'presetPath' => '@backend/config/my-ace-config.php',
+]) ?>
 ```
 
-Callable string:
+Preset file example:
 
 ```php
-'ace.customConfig' => 'app\helpers\Editor::getGlobalConfig',
-```
-
-> **Note:** Method `Editor::getGlobalConfig` must return array.
-
-Anonymous function:
-
-```php
-'ace.customConfig' => function () {
-    return [
-        'fontSize' => 14,
-        'minLines' => 10,
-        'maxLines' => new \yii\web\JsExpression('Infinity'),
-        'useSoftTabs' => true,
-    ];
-},
+<?php
+return [
+    'fontSize' => 14,
+    'minLines' => 10,
+    'maxLines' => new \yii\web\JsExpression('Infinity'),
+    'useSoftTabs' => true,
+];
 ```
