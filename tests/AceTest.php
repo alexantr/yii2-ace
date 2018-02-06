@@ -17,10 +17,10 @@ class AceTest extends TestCase
             'model' => new Post(),
             'attribute' => 'message',
         ]);
-        $expected = '<div id="post-message-ace" style="width:100%"></div>';
+
+        $expected = '<div id="post-message-ace"></div>';
         $expected .= "\n";
         $expected .= '<textarea id="post-message" name="Post[message]" style="display:none"></textarea>';
-
         $this->assertEqualsWithoutLE($expected, $out);
     }
 
@@ -34,10 +34,10 @@ class AceTest extends TestCase
             'name' => 'test-editor-name',
             'value' => 'test-editor-value',
         ]);
-        $expected = '<div id="test-ace" style="width:100%"></div>';
+
+        $expected = '<div id="test-ace"></div>';
         $expected .= "\n";
         $expected .= '<textarea id="test" name="test-editor-name" style="display:none">test-editor-value</textarea>';
-
         $this->assertEqualsWithoutLE($expected, $out);
     }
 
@@ -55,11 +55,17 @@ class AceTest extends TestCase
                 'fontSize' => 14,
                 'useSoftTabs' => true,
             ],
+            'containerOptions' => [
+                'style' => 'min-height:100px',
+            ],
         ]);
 
         $out = $view->renderFile('@tests/data/views/layout.php', [
             'content' => $widget,
         ]);
+
+        $expected = '<div id="post-message-ace" style="min-height:100px"></div>';
+        $this->assertContains($expected, $out);
 
         $expected = 'alexantr.aceWidget.register(\'post-message-ace\', \'post-message\', \'javascript\', \'twilight\', {"fontSize":14,"useSoftTabs":true});';
         $this->assertContains($expected, $out);

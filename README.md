@@ -28,7 +28,7 @@ The following code in a view file would render an Ace widget:
 If you want to use the Ace widget in an ActiveForm, it can be done like this:
 
 ```php
-<?= $form->field($model, 'attributeName')->widget(alexantr\ace\Ace::className()) ?>
+<?= $form->field($model, 'attributeName')->widget(alexantr\ace\Ace::className(), [/*...*/]) ?>
 ```
 
 Configuring the [Ace options](https://github.com/ajaxorg/ace/wiki/Configuring-Ace) should be done
@@ -39,14 +39,22 @@ using the `clientOptions` attribute:
     'name' => 'attributeName',
     'clientOptions' => [
         'fontSize' => 14,
-        'minLines' => 10,
-        'maxLines' => 100,
         'useSoftTabs' => true,
+        'maxLines' => 100, // need this option...
     ],
 ]) ?>
 ```
 
-> **Note:** Please set `minLines` and `maxLines` options or set CSS `min-height` for Ace container to make editor visible.
+**Note:** Please set `maxLines` option or set CSS `min-height` for Ace container to make editor visible:
+
+```php
+<?= alexantr\ace\Ace::widget([
+    'name' => 'attributeName',
+    'containerOptions' => [
+        'style' => 'min-height:100px', // ...or this style
+    ],
+]) ?>
+```
 
 Setting [themes](https://github.com/ajaxorg/ace/tree/master/lib/ace/theme) and programming language mode:
 
@@ -55,6 +63,8 @@ Setting [themes](https://github.com/ajaxorg/ace/tree/master/lib/ace/theme) and p
     'name' => 'attributeName',
     'mode' => 'javascript',
     'theme' => 'twilight',
+    'clientOptions' => [/*...*/],
+    'containerOptions' => [/*...*/],
 ]) ?>
 ```
 

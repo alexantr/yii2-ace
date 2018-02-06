@@ -35,9 +35,7 @@ class Ace extends InputWidget
     /**
      * @var array Container options
      */
-    public $containerOptions = [
-        'style' => 'width:100%'
-    ];
+    public $containerOptions = [];
 
     /**
      * @inheritdoc
