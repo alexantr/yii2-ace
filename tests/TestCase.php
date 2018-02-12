@@ -14,8 +14,6 @@ use yii\web\View;
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-    public static $params;
-
     /**
      * Mock application prior running tests.
      */

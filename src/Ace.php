@@ -91,13 +91,12 @@ class Ace extends InputWidget
         $view = $this->getView();
         WidgetAsset::register($view);
 
+        $cdnBaseUrl = self::$cdnBaseUrl;
         $textareaId = $this->options['id'];
         $editorId = $this->containerOptions['id'];
         $encodedOptions = !empty($this->clientOptions) ? Json::htmlEncode($this->clientOptions) : '{}';
 
-        $url = self::$cdnBaseUrl . 'ace.js';
-
-        $view->registerJs("alexantr.aceWidget.setScriptUrl('$url');", View::POS_END);
+        $view->registerJs("alexantr.aceWidget.setBaseUrl('$cdnBaseUrl');", View::POS_END);
         $view->registerJs("alexantr.aceWidget.register('$editorId', '$textareaId', '{$this->mode}', '{$this->theme}', $encodedOptions);", View::POS_END);
     }
 

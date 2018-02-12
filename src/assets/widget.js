@@ -5,7 +5,7 @@ if (typeof alexantr === 'undefined' || !alexantr) {
 alexantr.aceWidget = (function ($) {
     'use strict';
 
-    var scriptUrl,
+    var baseUrl,
         callbacks = [],
         loading = false,
         loaded = false;
@@ -33,9 +33,9 @@ alexantr.aceWidget = (function ($) {
     };
 
     return {
-        setScriptUrl: function (url) {
-            if (!scriptUrl) {
-                scriptUrl = url;
+        setBaseUrl: function (url) {
+            if (!baseUrl) {
+                baseUrl = url;
             }
         },
         register: function (editorId, textareId, mode, theme, options) {
@@ -43,9 +43,9 @@ alexantr.aceWidget = (function ($) {
                 callPlugin(editorId, textareId, mode, theme, options);
             } else {
                 callbacks.push({editorId: editorId, textareId: textareId, mode: mode, theme: theme, options: options});
-                if (!loading && scriptUrl) {
+                if (!loading && baseUrl) {
                     loading = true;
-                    $.getCachedScript(scriptUrl).done(function () {
+                    $.getCachedScript(baseUrl + 'ace.js').done(function () {
                         loaded = true;
                         loading = false;
                         for (var i = 0; i < callbacks.length; i++) {
