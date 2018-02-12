@@ -10,11 +10,16 @@ use yii\web\View;
 use yii\widgets\InputWidget;
 
 /**
- * Ace code editor widget
- * @see https://ace.c9.io/
+ * Ace code editor input widget
+ * @link https://ace.c9.io/
  */
 class Ace extends InputWidget
 {
+    /**
+     * @var string Ace CDN base URL
+     */
+    public static $cdnBaseUrl = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.1/';
+
     /**
      * @var string Ace mode
      */
@@ -43,6 +48,7 @@ class Ace extends InputWidget
     public function init()
     {
         parent::init();
+        $this->clientOptions = ArrayHelper::merge($this->getPresetConfig(), $this->clientOptions);
         if (!isset($this->containerOptions['id'])) {
             $this->containerOptions['id'] = $this->options['id'] . '-ace';
         }
@@ -53,7 +59,7 @@ class Ace extends InputWidget
      */
     public function run()
     {
-        $this->registerClientScript();
+        $this->registerPlugin();
         return $this->renderContent();
     }
 
@@ -80,19 +86,19 @@ class Ace extends InputWidget
     /**
      * Registers Ace plugin
      */
-    protected function registerClientScript()
+    protected function registerPlugin()
     {
         $view = $this->getView();
-        AceWidgetAsset::register($view);
+        WidgetAsset::register($view);
 
         $textareaId = $this->options['id'];
         $editorId = $this->containerOptions['id'];
+        $encodedOptions = !empty($this->clientOptions) ? Json::htmlEncode($this->clientOptions) : '{}';
 
-        $clientOptions = ArrayHelper::merge($this->getPresetConfig(), $this->clientOptions);
-        $encodedOptions = !empty($clientOptions) ? Json::encode($clientOptions) : '{}';
+        $url = self::$cdnBaseUrl . 'ace.js';
 
-        $js = "alexantr.aceWidget.register('$editorId', '$textareaId', '{$this->mode}', '{$this->theme}', $encodedOptions);";
-        $view->registerJs($js, View::POS_END);
+        $view->registerJs("alexantr.aceWidget.setScriptUrl('$url');", View::POS_END);
+        $view->registerJs("alexantr.aceWidget.register('$editorId', '$textareaId', '{$this->mode}', '{$this->theme}', $encodedOptions);", View::POS_END);
     }
 
     /**

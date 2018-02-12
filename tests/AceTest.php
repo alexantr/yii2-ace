@@ -67,6 +67,9 @@ class AceTest extends TestCase
         $expected = '<div id="post-message-ace" style="min-height:100px"></div>';
         $this->assertContains($expected, $out);
 
+        $expected = 'alexantr.aceWidget.setScriptUrl(\'' . Ace::$cdnBaseUrl . 'ace.js\')';
+        $this->assertContains($expected, $out);
+
         $expected = 'alexantr.aceWidget.register(\'post-message-ace\', \'post-message\', \'javascript\', \'twilight\', {"fontSize":14,"useSoftTabs":true});';
         $this->assertContains($expected, $out);
     }
