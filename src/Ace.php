@@ -18,7 +18,7 @@ class Ace extends InputWidget
     /**
      * @var string Ace CDN base URL
      */
-    public static $cdnBaseUrl = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.3.1/';
+    public static $cdnBaseUrl = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/';
 
     /**
      * @var string Ace mode
