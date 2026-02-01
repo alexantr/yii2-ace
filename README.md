@@ -2,11 +2,6 @@
 
 This extension renders a [Ace Code Editor](https://ace.c9.io/) widget for [Yii framework 2.0](http://www.yiiframework.com).
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/alexantr/yii2-ace.svg)](https://packagist.org/packages/alexantr/yii2-ace)
-[![Total Downloads](https://img.shields.io/packagist/dt/alexantr/yii2-ace.svg)](https://packagist.org/packages/alexantr/yii2-ace)
-[![License](https://img.shields.io/github/license/alexantr/yii2-ace.svg)](https://raw.githubusercontent.com/alexantr/yii2-ace/master/LICENSE)
-[![Build Status](https://travis-ci.org/alexantr/yii2-ace.svg?branch=master)](https://travis-ci.org/alexantr/yii2-ace)
-
 ## Installation
 
 Install extension through [composer](http://getcomposer.org/):
